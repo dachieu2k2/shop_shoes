@@ -4,10 +4,13 @@ import Link from "next/link";
 import { ProductContext } from "../Context/Product";
 import CartItem from "./CartItem";
 import { dataSearch } from "./dataSearch";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [activeSearch, setActiveSearch] = useState<number>(0);
+  const [searchText, setSearchText] = useState<string>("");
 
+  const router = useRouter();
   const { productState } = useContext(ProductContext);
 
   return (
@@ -60,14 +63,29 @@ const Navbar = () => {
 
               <div className="relative w-full">
                 <input
-                  type="search"
+                  type="text"
                   id="search-dropdown"
                   className="block p-2.5 w-full z-20 text-sm text-gray-900  rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 "
                   placeholder="Tìm kiêm..."
+                  name="searchText"
+                  value={searchText}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSearchText(e.target.value)
+                  }
                 />
                 <button
-                  type="submit"
                   className="absolute top-0 right-0 p-2.5 text-sm font-medium text-gray-600 bg-transparent rounded-r-lg hover:text-gray-500 "
+                  onClick={() => {
+                    if (searchText) {
+                      router.push({
+                        pathname: "/search",
+                        query: {
+                          s: searchText,
+                          f: dataSearch[activeSearch].key,
+                        },
+                      });
+                    }
+                  }}
                 >
                   <svg
                     aria-hidden="true"

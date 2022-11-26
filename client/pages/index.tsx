@@ -43,6 +43,7 @@ export default function Home() {
         <img
           src="https://bizweb.dktcdn.net/100/336/177/themes/693093/assets/slider_1.jpg?1663899591926"
           alt="shop"
+          className="mx-auto"
         />
       </div>
       <Layout>
