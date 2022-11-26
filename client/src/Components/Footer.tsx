@@ -69,10 +69,17 @@ const Footer = () => {
           <div className="basis-full md:basis-3/12 mt-10">
             <div className="flex flex-col gap-3">
               <p>ĐỊA CHỈ</p>
-              <img
+              {/* <img
                 src="https://bizweb.dktcdn.net/100/336/177/themes/693093/assets/slider_1.jpg?1663899591926"
                 width={400}
-              ></img>
+              ></img> */}
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d251637.4830756643!2d105.61890371970875!3d9.779968394370082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0520f91e50723%3A0x5d5ccad46893d479!2sMisa%20Sisa%20Shoes%20Gi%C3%A0y%20N%E1%BB%AF%20Vnxk!5e0!3m2!1svi!2s!4v1669423275617!5m2!1svi!2s"
+                className="w-full h-400"
+                // allowfullscreen=""
+                loading="lazy"
+                // referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>

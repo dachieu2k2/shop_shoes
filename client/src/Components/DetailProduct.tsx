@@ -1,14 +1,17 @@
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { Helmet } from "react-helmet";
 import { ProductContext } from "../Context/Product";
 import Loading from "./Loading";
 import OtherProducts from "./OtherProducts";
 
 const DetailProduct: React.FC<{ id: string }> = ({ id }) => {
+  const [indexSize, setIndexSize] = useState<number>(-1);
   const { productState } = useContext(ProductContext);
   if (productState.isLoading) {
     return <Loading />;
   }
+
   const value = productState.data.find((value) => value._id === id);
 
   if (!value) {
@@ -29,6 +32,9 @@ const DetailProduct: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <>
+      <Helmet>
+        <title>{productName}</title>
+      </Helmet>
       <div className="px-14">
         <nav className="flex ml-3 my-3" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-3">
@@ -79,34 +85,44 @@ const DetailProduct: React.FC<{ id: string }> = ({ id }) => {
 
           <div className="md:basis-1/2 basis-full">
             <div className="flex flex-col justify-center items-center">
-              <div>{productName}</div>
+              <div className="text-2xl font-semibold">{productName}</div>
               <div>
                 <div className="mt-4 md:mt-3 font-bold text-xs md:text-sm flex justify-center items-center ">
-                  <p className="text-red-600">
-                    {oldPrice.toLocaleString("vi-VN", {
+                  <p className="text-red-600 text-lg">
+                    {price.toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
                     })}
                   </p>
                   <span className="mx-1">{`    -    `}</span>
-                  <p className="line-through text-gray-700 ">
-                    {price.toLocaleString("vi-VN", {
+                  <p className="line-through text-gray-700 text-lg">
+                    {oldPrice.toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
                     })}
                   </p>
                 </div>
               </div>
-              <div>{description}</div>
+              <div className="mt-10 text-gray-800">
+                {description?.split("- ").map((value, index) => {
+                  if (index === 0) return null;
+                  return <div key={value}>- {value}</div>;
+                })}
+              </div>
               <div className="flex justify-center items-center flex-col mt-10">
-                <div>Kich thuoc</div>
+                <div>Kích thước</div>
                 <div>
                   {size
                     .filter((value) => value % 1 === 0)
                     .map((value, index) => (
                       <button
                         key={index}
-                        className="p-2 border text-sm border-gray-300 mt-5 ml-2 bg-black text-white rounded-sm font-semibold"
+                        className={`p-2.5 border text-xs  ${
+                          indexSize === index
+                            ? "border-black"
+                            : "border-gray-200"
+                        } mt-5 ml-2 bg-white text-black rounded-sm `}
+                        onClick={() => setIndexSize(index)}
                       >
                         {value}
                       </button>

@@ -31,14 +31,14 @@ const Product: React.FC<{ value: ProductType }> = ({ value }) => {
       <div>
         <div className="mt-4 md:mt-3 font-bold text-xs md:text-sm flex justify-center items-center ">
           <p className="text-red-600">
-            {oldPrice.toLocaleString("vi-VN", {
+            {price.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}
           </p>
           <span className="mx-1">{`    -    `}</span>
           <p className="line-through text-gray-700 ">
-            {price.toLocaleString("vi-VN", {
+            {oldPrice.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}

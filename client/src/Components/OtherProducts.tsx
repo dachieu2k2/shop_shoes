@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { ProductContext } from "../Context/Product";
 import Loading from "./Loading";
 import Product from "./Product";
@@ -9,14 +9,18 @@ const OtherProducts = () => {
   if (productState.isLoading) {
     return <Loading />;
   }
-  const suffleArray = (() => {
-    const array = productState.data;
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  })();
+  const suffleArray = useMemo(
+    () =>
+      (() => {
+        const array = productState.data;
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      })(),
+    []
+  );
   return (
     <>
       <div className="text-center mt-10 flex justify-center flex-col items-center">
@@ -27,7 +31,7 @@ const OtherProducts = () => {
       </div>
       <div className="flex flex-wrap">
         {suffleArray.map((value, index) => {
-          if (index >= 4) {
+          if (index >= 12) {
             return null;
           }
           return (

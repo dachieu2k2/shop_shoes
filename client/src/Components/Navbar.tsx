@@ -116,7 +116,7 @@ const Navbar = () => {
                 <ul className="absolute bg-white shadow rounded hidden text-black pt-1 md:w-[200px] group-hover:block z-30">
                   <li className="hover:text-red-600 font-normal text-sm  py-2 pl-4 block  ">
                     <Link
-                      href="/a-ba-thing-ape-rep-1-1"
+                      href="/register"
                       className="flex items-center gap-x-1"
                     >
                       <svg
@@ -138,10 +138,7 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li className="hover:text-red-600 font-normal text-sm  py-2 pl-4 block  ">
-                    <Link
-                      href="/a-ba-thing-ape-rep-1-1"
-                      className="flex items-center gap-x-1"
-                    >
+                    <Link href="/login" className="flex items-center gap-x-1">
                       <svg
                         className="h-6 w-6 "
                         width="24"
