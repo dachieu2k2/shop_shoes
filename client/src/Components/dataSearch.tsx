@@ -1,8 +1,8 @@
 export const dataSearch = [
   {
     label: (
-      <div className="search_item" data-coll-id="3025219">
-        Tất cả
+      <div className="search_item" data-coll-id="3025217">
+        Tất&nbsp;cả
       </div>
     ),
     key: "all",

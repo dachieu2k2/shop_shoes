@@ -4,6 +4,7 @@ server/dist
 
 client/.next/
 client/out/
+index.html
 
 # production
 client/build
