@@ -51,7 +51,7 @@ const index = () => {
                   ></path>
                 </svg>
                 <Link
-                  href={"/register"}
+                  href={"/checkout"}
                   className="ml-1 text-sm font-medium text-gray-700 hover:text-gray-900 md:ml-2 "
                 >
                   Thanh toán
