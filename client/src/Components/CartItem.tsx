@@ -1,9 +1,12 @@
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../Context/Cart";
 import { CartType } from "../Models/CartModel";
 import { ProductType } from "../Models/ProductModel";
 
 const CartItem: React.FC<{ value: CartType }> = ({ value }) => {
+  const { deleteProducts, increaseAmount, decreaseAmount } =
+    useContext(CartContext);
   const { productName, href, _id, price, oldPrice, saleFlash, img } =
     value.product;
 
@@ -35,9 +38,23 @@ const CartItem: React.FC<{ value: CartType }> = ({ value }) => {
           </p>
         </div>
         <div className="flex justify-center items-center mt-2">
-          <button className="border border-gray-200  w-5">-</button>
+          <button
+            className="border border-gray-200  w-5"
+            onClick={() =>
+              decreaseAmount({ ...value.product, size: [value.size] })
+            }
+          >
+            -
+          </button>
           <button className="border border-gray-200 w-5">{value.amount}</button>
-          <button className="border border-gray-200  w-5">+</button>
+          <button
+            className="border border-gray-200  w-5"
+            onClick={() =>
+              increaseAmount({ ...value.product, size: [value.size] })
+            }
+          >
+            +
+          </button>
         </div>
         <div className="absolute top-0 right-0">
           <svg
@@ -50,6 +67,9 @@ const CartItem: React.FC<{ value: CartType }> = ({ value }) => {
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
+            onClick={() =>
+              deleteProducts({ ...value.product, size: [value.size] })
+            }
           >
             {" "}
             <path stroke="none" d="M0 0h24v24H0z" />{" "}

@@ -26,7 +26,6 @@ export const cartReducer = (state: CartStateType, action: CartAction) => {
                 }
                 return value
             })
-            console.log(check);
 
 
             if (check) {
@@ -47,9 +46,36 @@ export const cartReducer = (state: CartStateType, action: CartAction) => {
 
             return { ...state, isLoading: false }
         }
-        case CartActionKind.DELETE_PRODUCT: {
+        case CartActionKind.INCREASE_AMOUNT: {
 
-            return { ...state, isLoading: false }
+            const data = state.data.map((value) => {
+                if (value.product._id === payload._id && value.size === payload.size[0]) {
+                    if (value.amount > 4) {
+                        console.log('Het hang');
+                    } else {
+                        return { ...value, amount: value.amount + 1 }
+                    }
+                }
+                return value
+            })
+            return { ...state, data }
+        }
+        case CartActionKind.DECREASE_AMOUNT: {
+            const data = state.data.map((value) => {
+                if (value.product._id === payload._id && value.size === payload.size[0]) {
+                    if (value.amount = 1) {
+                    } else {
+                        return { ...value, amount: value.amount - 1 }
+                    }
+                }
+                return value
+            })
+            return { ...state, data }
+        }
+        case CartActionKind.DELETE_PRODUCT: {
+            const data = state.data.filter((value) => value.product._id !== payload._id || value.size !== payload.size[0])
+            return { ...state, data }
+
         }
 
         default:
