@@ -63,7 +63,7 @@ export const cartReducer = (state: CartStateType, action: CartAction) => {
         case CartActionKind.DECREASE_AMOUNT: {
             const data = state.data.map((value) => {
                 if (value.product._id === payload._id && value.size === payload.size[0]) {
-                    if (value.amount = 1) {
+                    if (value.amount === 1) {
                     } else {
                         return { ...value, amount: value.amount - 1 }
                     }

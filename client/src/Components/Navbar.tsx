@@ -210,43 +210,51 @@ const Navbar = () => {
                   </span>
                 </Link>
                 <ul className="absolute bg-white shadow  -left-60 rounded hidden text-black p-5 md:w-[400px] group-hover:block z-30 md:max-h-[600px] ">
-                  <ul className="overflow-y-auto md:max-h-[300px]">
-                    {cartState.data.length === 0 ? (
-                      <div className="text-center p-3">Giỏ hàng trống</div>
-                    ) : (
-                      cartState.data.map((value, index) => (
-                        <div key={index}>
-                          <CartItem value={value} />
-                          <hr className="my-1 h-[1px] bg-gray-300 border-0 w-full" />
-                        </div>
-                      ))
-                    )}
-                  </ul>
+                  {cartState.data.length === 0 ? (
+                    <div className="text-center p-3">Giỏ hàng trống</div>
+                  ) : (
+                    <>
+                      <ul className="overflow-y-auto md:max-h-[300px]">
+                        {cartState.data.map((value, index) => (
+                          <div key={index}>
+                            <CartItem value={value} />
+                            <hr className="my-1 h-[1px] bg-gray-300 border-0 w-full" />
+                          </div>
+                        ))}
+                      </ul>
 
-                  <div className="flex justify-between my-3">
-                    <p>Tổng công:</p>
-                    <p className="font-semibold">
-                      {cartState.data
-                        .reduce((value, cartItem) => {
-                          return (
-                            value + cartItem.product.price * cartItem.amount
-                          );
-                        }, 0)
-                        .toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                    </p>
-                  </div>
-                  <hr className="my-3 h-[2px] bg-gray-300 border-0 w-full " />
-                  <div className="flex justify-around">
-                    <button className="bg-black px-8 text-sm rounded-sm py-2 text-white hover:bg-slate-900">
-                      Giỏ hàng
-                    </button>
-                    <button className="hover:bg-black bg-white px-8 text-sm rounded-sm py-2 text-black hover:text-white border border-black ">
-                      Thanh toán
-                    </button>
-                  </div>
+                      <div className="flex justify-between my-3">
+                        <p>Tổng công:</p>
+                        <p className="font-semibold">
+                          {cartState.data
+                            .reduce((value, cartItem) => {
+                              return (
+                                value + cartItem.product.price * cartItem.amount
+                              );
+                            }, 0)
+                            .toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                        </p>
+                      </div>
+                      <hr className="my-3 h-[2px] bg-gray-300 border-0 w-full " />
+                      <div className="flex justify-around">
+                        <button
+                          onClick={() => router.push("/cart")}
+                          className="bg-black px-8 text-sm rounded-sm py-2 text-white hover:bg-slate-900"
+                        >
+                          Giỏ hàng
+                        </button>
+                        <button
+                          onClick={() => router.push("/checkout")}
+                          className="hover:bg-black bg-white px-8 text-sm rounded-sm py-2 text-black hover:text-white border border-black "
+                        >
+                          Thanh toán
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
