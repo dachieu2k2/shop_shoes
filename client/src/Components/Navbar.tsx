@@ -5,6 +5,7 @@ import { ProductContext } from "../Context/Product";
 import CartItem from "./CartItem";
 import { dataSearch } from "./dataSearch";
 import { useRouter } from "next/router";
+import { CartContext } from "../Context/Cart";
 
 const Navbar = () => {
   const [activeSearch, setActiveSearch] = useState<number>(0);
@@ -12,6 +13,8 @@ const Navbar = () => {
 
   const router = useRouter();
   const { productState } = useContext(ProductContext);
+  const { cartState } = useContext(CartContext);
+  console.log(cartState);
 
   return (
     <>
@@ -199,22 +202,41 @@ const Navbar = () => {
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                       />
                     </svg>
-                    Giỏ hàng (0)
+                    Giỏ hàng (
+                    {cartState.data.reduce((value, obj) => {
+                      return (value += obj.amount);
+                    }, 0)}
+                    )
                   </span>
                 </Link>
                 <ul className="absolute bg-white shadow  -left-60 rounded hidden text-black p-5 md:w-[400px] group-hover:block z-30 md:max-h-[600px] ">
                   <ul className="overflow-y-auto md:max-h-[300px]">
-                    {productState.data.map((value, index) => (
-                      <div key={index}>
-                        <CartItem value={value} />
-                        <hr className="my-1 h-[1px] bg-gray-300 border-0 w-full" />
-                      </div>
-                    ))}
+                    {cartState.data.length === 0 ? (
+                      <div className="text-center p-3">Giỏ hàng trống</div>
+                    ) : (
+                      cartState.data.map((value, index) => (
+                        <div key={index}>
+                          <CartItem value={value} />
+                          <hr className="my-1 h-[1px] bg-gray-300 border-0 w-full" />
+                        </div>
+                      ))
+                    )}
                   </ul>
 
                   <div className="flex justify-between my-3">
                     <p>Tổng công:</p>
-                    <p className="font-semibold">26.880.000₫</p>
+                    <p className="font-semibold">
+                      {cartState.data
+                        .reduce((value, cartItem) => {
+                          return (
+                            value + cartItem.product.price * cartItem.amount
+                          );
+                        }, 0)
+                        .toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                    </p>
                   </div>
                   <hr className="my-3 h-[2px] bg-gray-300 border-0 w-full " />
                   <div className="flex justify-around">

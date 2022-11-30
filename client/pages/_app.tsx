@@ -6,6 +6,8 @@ import Navbar from "../src/Components/Navbar";
 import Footer from "../src/Components/Footer";
 import ScrollTopButton from "../src/Components/ScrollTopButton";
 import { useEffect, useState } from "react";
+import CartProvider from "../src/Context/Cart";
+import UserProvider from "../src/Context/User";
 // import { ConfigProvider } from "antd";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -29,19 +31,23 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ProductProvider>
-      <Head>
-        <title>Shop TUSHOES</title>
-        <link
-          rel="icon"
-          type="image/x-icon"
-          href="https://bizweb.dktcdn.net/100/336/177/themes/693093/assets/logo.png?1663899591926"
-        ></link>
-      </Head>
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
-      {visible && <ScrollTopButton />}
-    </ProductProvider>
+    <UserProvider>
+      <ProductProvider>
+        <CartProvider>
+          <Head>
+            <title>Shop TUSHOES</title>
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="https://bizweb.dktcdn.net/100/336/177/themes/693093/assets/logo.png?1663899591926"
+            ></link>
+          </Head>
+          <Navbar />
+          <Component {...pageProps} />
+          <Footer />
+          {visible && <ScrollTopButton />}
+        </CartProvider>
+      </ProductProvider>
+    </UserProvider>
   );
 }

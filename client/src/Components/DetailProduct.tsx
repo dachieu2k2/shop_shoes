@@ -1,13 +1,17 @@
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
+import { CartContext } from "../Context/Cart";
 import { ProductContext } from "../Context/Product";
 import Loading from "./Loading";
 import OtherProducts from "./OtherProducts";
 
 const DetailProduct: React.FC<{ id: string }> = ({ id }) => {
-  const [indexSize, setIndexSize] = useState<number>(-1);
+  const [indexSize, setIndexSize] = useState<number>(36);
+
   const { productState } = useContext(ProductContext);
+  const { addProducts } = useContext(CartContext);
+
   if (productState.isLoading) {
     return <Loading />;
   }
@@ -118,11 +122,11 @@ const DetailProduct: React.FC<{ id: string }> = ({ id }) => {
                       <button
                         key={index}
                         className={`p-2.5 border text-xs  ${
-                          indexSize === index
+                          indexSize === value
                             ? "border-black"
                             : "border-gray-200"
                         } mt-5 ml-2 bg-white text-black rounded-sm `}
-                        onClick={() => setIndexSize(index)}
+                        onClick={() => setIndexSize(value)}
                       >
                         {value}
                       </button>
@@ -130,7 +134,10 @@ const DetailProduct: React.FC<{ id: string }> = ({ id }) => {
                 </div>
               </div>
               <div className="flex justify-around mt-10 w-full">
-                <button className="hover:bg-black bg-white px-8 text-sm rounded-sm py-2 text-black hover:text-white border border-black ">
+                <button
+                  className="hover:bg-black bg-white px-8 text-sm rounded-sm py-2 text-black hover:text-white border border-black "
+                  onClick={() => addProducts({ ...value, size: [indexSize] })}
+                >
                   Thêm vào giỏ hàng
                 </button>
                 <button className="bg-black px-8 text-sm rounded-sm py-2 text-white hover:bg-slate-900">

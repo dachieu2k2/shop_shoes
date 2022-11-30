@@ -1,69 +1,60 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import {
-  ProductActionKind,
-  ProductStateType,
-  ProductType,
-} from "../Models/ProductModel";
-import { productReducer } from "../Reducers/ProductReducer";
+import { CartActionKind, CartStateType, CartType } from "../Models/CartModel";
+import { cartReducer } from "../Reducers/CartReducer";
 import axios from "axios";
 import { apiUrl, config } from "./constants";
+import { ProductType } from "../Models/ProductModel";
 
-type ProductContextType = {
-  productState: ProductStateType;
+type CartContextType = {
+  cartState: CartStateType;
   getProducts: () => Promise<void>;
+  setProducts: (product: ProductType) => void;
+  addProducts: (product: ProductType) => void;
 };
-const initialProductState: ProductStateType = {
+const initialCart: CartStateType = {
   data: [],
-  isLoading: true,
+  user: null,
+  totalMoney: 0,
 };
-const initialContextState: ProductContextType = {
-  productState: initialProductState,
+const initialContextState: CartContextType = {
+  cartState: initialCart,
   getProducts: () => Promise.resolve(void 0), // then here it can be () => null or () => {}
+  setProducts: () => {},
+  addProducts: () => {},
 };
 
-export const ProductContext =
-  createContext<ProductContextType>(initialContextState);
+export const CartContext = createContext<CartContextType>(initialContextState);
 
 interface Props {
   children: React.ReactNode;
 }
 
-const ProductProvider: React.FC<Props> = ({ children }) => {
-  const [productState, dispatch] = useReducer(
-    productReducer,
-    initialProductState
-  );
+const CartProvider: React.FC<Props> = ({ children }) => {
+  const [cartState, dispatch] = useReducer(cartReducer, initialCart);
 
   useEffect(() => {
     getProducts();
   }, []);
 
-  const getProducts = async () => {
-    try {
-      const response = await axios.get<ProductType[]>(`${apiUrl}/product`);
-
-      if (response.status === 200) {
-        dispatch({
-          type: ProductActionKind.SET_PRODUCT,
-          payload: response.data,
-        });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
+  const getProducts = async () => {};
+  const setProducts = (product: ProductType) => {
+    // dispatch(CartActionKind.SET_PRODUCT)
+  };
+  const addProducts = (product: ProductType) => {
+    dispatch({ type: CartActionKind.ADD_PRODUCT, payload: product });
   };
 
-  const dataProductContext = {
-    productState,
+  const dataCartContext = {
+    cartState,
     getProducts,
+    setProducts,
+    addProducts,
   };
   return (
-    <ProductContext.Provider value={dataProductContext}>
+    <CartContext.Provider value={dataCartContext}>
       {children}
-    </ProductContext.Provider>
+    </CartContext.Provider>
   );
 };
 
-export default ProductProvider;
+export default CartProvider;

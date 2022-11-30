@@ -1,29 +1,53 @@
-import { ProductActionKind, ProductStateType, ProductType } from "../Models/ProductModel"
+import { CartActionKind, CartStateType, CartType } from "../Models/CartModel"
 
-export type ProductAction = {
-    type: ProductActionKind;
+export type CartAction = {
+    type: CartActionKind;
     payload: any
 }
 
-export const productReducer = (state: ProductStateType, action: ProductAction) => {
+
+export const cartReducer = (state: CartStateType, action: CartAction) => {
     const { payload, type } = action
     console.log(payload);
 
+
     switch (type) {
-        case ProductActionKind.SET_PRODUCT: {
+        case CartActionKind.SET_PRODUCT: {
 
             return { ...state, isLoading: false, data: payload }
         }
-        case ProductActionKind.ADD_PRODUCT: {
+        case CartActionKind.ADD_PRODUCT: {
+            let check = 0;
+
+            const data = state.data.map((value) => {
+                if (value.product._id === payload._id && value.size === payload.size[0]) {
+                    check = 1;
+                    return { ...value, amount: value.amount + 1 }
+                }
+                return value
+            })
+            console.log(check);
+
+
+            if (check) {
+                return {
+                    ...state,
+                    data,
+                }
+            }
+
+            return {
+                ...state,
+                data: [...state.data, { size: payload.size[0], amount: 1, product: payload }],
+            }
+
+        }
+
+        case CartActionKind.UPDATE_PRODUCT: {
 
             return { ...state, isLoading: false }
         }
-
-        case ProductActionKind.UPDATE_PRODUCT: {
-
-            return { ...state, isLoading: false }
-        }
-        case ProductActionKind.DELETE_PRODUCT: {
+        case CartActionKind.DELETE_PRODUCT: {
 
             return { ...state, isLoading: false }
         }
@@ -31,4 +55,5 @@ export const productReducer = (state: ProductStateType, action: ProductAction) =
         default:
             return state;
     }
+
 }

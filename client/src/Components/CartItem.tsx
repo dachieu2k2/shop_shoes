@@ -1,16 +1,21 @@
 import Link from "next/link";
 import React from "react";
+import { CartType } from "../Models/CartModel";
 import { ProductType } from "../Models/ProductModel";
 
-const CartItem: React.FC<{ value: ProductType }> = ({ value }) => {
-  const { productName, href, _id, price, oldPrice, saleFlash } = value;
+const CartItem: React.FC<{ value: CartType }> = ({ value }) => {
+  const { productName, href, _id, price, oldPrice, saleFlash, img } =
+    value.product;
 
   return (
     <div className="max-w-full bg-white flex  items-center h-36 relative">
-      <Link href={`/${_id}`} className="w-24 overflow-hidden ">
+      <Link
+        href={{ pathname: href, query: { id: _id } }}
+        className="w-24 overflow-hidden "
+      >
         <img
           className="rounded-t-lg hover:scale-110 transition duration-300 ease-in-out"
-          src={value?.img}
+          src={img}
           alt={productName}
         />
       </Link>
@@ -19,11 +24,11 @@ const CartItem: React.FC<{ value: ProductType }> = ({ value }) => {
           href={`/${_id}`}
           className="mb-2 text-sm md:text-sm  tracking-tight text-black "
         >
-          {productName}
+          {productName} - {value.size}
         </Link>
         <div className="mt-4 md:mt-3 font-semibold text-xs md:text-sm flex justify-center items-center ">
           <p className="">
-            {oldPrice.toLocaleString("vi-VN", {
+            {price.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}
@@ -31,7 +36,7 @@ const CartItem: React.FC<{ value: ProductType }> = ({ value }) => {
         </div>
         <div className="flex justify-center items-center mt-2">
           <button className="border border-gray-200  w-5">-</button>
-          <button className="border border-gray-200 w-5">0</button>
+          <button className="border border-gray-200 w-5">{value.amount}</button>
           <button className="border border-gray-200  w-5">+</button>
         </div>
         <div className="absolute top-0 right-0">

@@ -10,6 +10,7 @@ export type UserType = {
     avatar?: string
     phoneNumber?: string
     verifyToken?: string;
+    stk?: number
 }
 
 export type UserStateType = {

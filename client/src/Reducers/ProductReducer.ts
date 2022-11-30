@@ -7,7 +7,7 @@ export type ProductAction = {
 
 export const productReducer = (state: ProductStateType, action: ProductAction) => {
     const { payload, type } = action
-    console.log(payload);
+    // console.log(payload);
 
     switch (type) {
         case ProductActionKind.SET_PRODUCT: {
